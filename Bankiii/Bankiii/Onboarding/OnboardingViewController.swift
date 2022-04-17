@@ -22,7 +22,7 @@ class OnboardingViewController : UIViewController{
         style()
         layout()
     }
-    
+    // challenge, standarize vc creation
     init(heroImageName : String, titleText : String){
         self.heroImageName = heroImageName
         self.titleText = titleText

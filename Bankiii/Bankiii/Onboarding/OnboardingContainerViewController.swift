@@ -24,7 +24,7 @@ class OnBoardingContainerViewController: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
         
-        let page1 = OnboardingViewController(heroImageName: "delorean", titleText: "Bankii is faster, easier to use and has a brand new neural engine to make your money work for you!")
+        let page1 = OnboardingViewController(heroImageName: "delorean", titleText: "Bankiii is faster, easier to use and has a brand new neural engine to make your money work for you!")
         let page2 = OnboardingViewController(heroImageName: "world", titleText: "Move your money around the world securely and anonimously")
         
         let page3 = OnboardingViewController(heroImageName: "thumbs", titleText: "learn more at www.bankii.com")
@@ -116,7 +116,7 @@ extension OnBoardingContainerViewController: UIPageViewControllerDataSource {
     }
 }
 
- //MARK: Actions
+ // MARK: -Actions
 extension OnBoardingContainerViewController{
     @objc func closeTapped(_ sender : UIButton){
         print("close button tapped")

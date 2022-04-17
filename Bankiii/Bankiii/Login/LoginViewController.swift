@@ -7,6 +7,15 @@
 
 import UIKit
 
+protocol LogoutDelegate : AnyObject{
+    func didLogout()
+}
+
+protocol LoginViewControllerDelegate : AnyObject{
+    // LoginViewControllerDelegate is THE protocol name, even it's confusing
+    func didLogin()
+}
+
 class LoginViewController: UIViewController {
 
     let loginView = LoginView()
@@ -20,7 +29,7 @@ class LoginViewController: UIViewController {
         return loginView.passwordTextField.text
     }
     // define delegate as weak to avoid retain cycles
-    //weak var delegate : LoginViewControllerDelegate?
+    weak var delegate : LoginViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,9 +102,9 @@ extension LoginViewController{
         }
         if(username == "Felicity" && password == "johnes"){
             signInButton.configuration?.showsActivityIndicator = true
-            // fire delegate when credentials are valid
-            //delegate?.didLogin()
-            // it will whatever is listening to delegate
+            // fire delegate only when credentials are valid
+            delegate?.didLogin()
+            // it will call whatever is listening to delegate
         } else{
           configureView(withMessage: "Incorrect username/password")
         }

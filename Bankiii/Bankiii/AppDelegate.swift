@@ -7,6 +7,8 @@
 
 import UIKit
 
+let appColor : UIColor = .systemTeal
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -14,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let loginViewController = LoginViewController()
     let onBoardingContainerVC = OnBoardingContainerViewController()
     let dummyVC = DummyViewController()
+    let mainVC = MainViewController()
     
     func application(_ application : UIApplication, didFinishLaunchingWithOptions launchOptions : [UIApplication.LaunchOptionsKey : Any]?) -> Bool{
         
@@ -26,8 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dummyVC.logoutDelegate = self
 //        window?.rootViewController = LoginViewController()
 //        window?.rootViewController = OnBoardingContainerViewController()
-        window?.rootViewController = loginViewController
+//        window?.rootViewController = loginViewController
 //        window?.rootViewController = onBoardingContainerVC
+        window?.rootViewController = mainVC
+        // to start on a diferent vc on launch:
+        mainVC.selectedIndex = 1 // 0, 1, or 2
         return true
     }
 

@@ -26,7 +26,7 @@ class AccountSummaryHeaderView : UIView{
         }
         
         private func commonInit() {
-            // how to load programatically
+            // how to load programatically a .xib file
             let bundle = Bundle(for: AccountSummaryHeaderView.self)
             bundle.loadNibNamed("AccountSummaryHeaderView", owner: self, options: nil)
             addSubview(contentView)

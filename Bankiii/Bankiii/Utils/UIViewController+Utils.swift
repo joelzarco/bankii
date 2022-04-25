@@ -11,6 +11,7 @@ import UIKit
 // helper methods to set status bar
 
 extension UIViewController{
+    
     func setStatusBar(){
         
         let statusBarSize = UIApplication.shared.statusBarFrame.size // deprecated ???

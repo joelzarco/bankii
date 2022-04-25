@@ -31,9 +31,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        window?.rootViewController = OnBoardingContainerViewController()
 //        window?.rootViewController = loginViewController
 //        window?.rootViewController = onBoardingContainerVC
-        window?.rootViewController = mainVC
+//        window?.rootViewController = mainVC
+        // to start directly into the summary
+        window?.rootViewController = AccountSummaryViewController()
         // to start on a diferent vc on launch:
-        mainVC.selectedIndex = 1 // 0, 1, or 2
+//        mainVC.selectedIndex = 1 // 0, 1, or 2
         return true
     }
 

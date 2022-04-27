@@ -21,7 +21,7 @@ class AccountSummaryCell : UITableViewCell{
     let chevronImageView = UIImageView()
     
     static let reuseID = "AccountSummaryCell"
-    static let rowHeight : CGFloat = 100
+    static let rowHeight : CGFloat = 112
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -59,11 +59,11 @@ extension AccountSummaryCell{
         balanceLabel.translatesAutoresizingMaskIntoConstraints = false
         balanceLabel.font = UIFont.preferredFont(forTextStyle: .body)
         balanceLabel.textAlignment = .right
-        balanceLabel.text = "Some balance"
+        balanceLabel.text = "Current balance"
         
         balanceAmountLabel.translatesAutoresizingMaskIntoConstraints = false
         balanceAmountLabel.textAlignment = .right
-        balanceAmountLabel.text = "999,696.69"
+        balanceAmountLabel.attributedText = makeFormattedBalance(dollars: "966,969", cents: "11")
         
         chevronImageView.translatesAutoresizingMaskIntoConstraints = false
         // using SSF symbol and change its color
@@ -103,4 +103,22 @@ extension AccountSummaryCell{
         chevronImageView.topAnchor.constraint(equalToSystemSpacingBelow: underlineView.bottomAnchor, multiplier: 1).isActive = true
         trailingAnchor.constraint(equalToSystemSpacingAfter: chevronImageView.trailingAnchor, multiplier: 1).isActive = true
     }
+    
+    private func makeFormattedBalance(dollars: String, cents: String) -> NSMutableAttributedString {
+        // [key value pairs], first elevate $ dollar sign 8 point from the base
+            let dollarSignAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .callout), .baselineOffset: 8]
+        // for the integer part use big font title1
+            let dollarAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .title1)]
+        // for cents use smaller footnote size and elevate 8 points
+            let centAttributes: [NSAttributedString.Key: Any] = [.font: UIFont.preferredFont(forTextStyle: .footnote), .baselineOffset: 8]
+            // apply attributes
+            let rootString = NSMutableAttributedString(string: "$", attributes: dollarSignAttributes)
+            let dollarString = NSAttributedString(string: dollars, attributes: dollarAttributes)
+            let centString = NSAttributedString(string: cents, attributes: centAttributes)
+            // concatenate string
+            rootString.append(dollarString)
+            rootString.append(centString)
+            
+            return rootString
+        }
 }

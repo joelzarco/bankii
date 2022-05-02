@@ -28,28 +28,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         onBoardingContainerVC.delegate = self
 
 //        window?.rootViewController = LoginViewController()
-        let vc = mainVC
-        vc.setStatusBar()
-        UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().backgroundColor = appColor
-        
-        window?.rootViewController = vc
+        displayLogin()
         
         return true
+     }
+    private func displayLogin(){
+        setRootViewController(loginViewController)
     }
-
+    private func displayNextScreen(){
+        if LocalState.hasOnboarded{
+            prepMainView()
+            setRootViewController(mainVC)
+        } else{
+            setRootViewController(onBoardingContainerVC)
+        }
+    }
+    
+    private func prepMainView(){
+        mainVC.setStatusBar()
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().backgroundColor = appColor
+    }
+    
 }
 
 extension AppDelegate : LoginViewControllerDelegate{
     func didLogin() {
         print("foo - didLogin succesfull!!!")
-        setRootViewController(onBoardingContainerVC)
-        if LocalState.hasOnboarded{
-         setRootViewController(mainVC)
-        }else{
-            setRootViewController(onBoardingContainerVC)
-        }
-        // smothly transition into loginVC
+        displayNextScreen()
     }
 }
 
@@ -57,6 +63,7 @@ extension AppDelegate : OnBoardingDelegate{
     func didFinishOnBoarding() {
         LocalState.hasOnboarded = true
         print("didFinishOnBoarding succesfull!!!")
+        prepMainView()
         setRootViewController(mainVC)
     }
 }

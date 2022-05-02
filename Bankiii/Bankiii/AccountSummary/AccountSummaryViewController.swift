@@ -29,7 +29,8 @@ extension AccountSummaryViewController {
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        
+        // app background
+        tableView.backgroundColor = appColor// so when you drag down the table there is no white gap
         // register cell to tableView
         tableView.register(AccountSummaryCell.self, forCellReuseIdentifier: AccountSummaryCell.reuseID)
         tableView.rowHeight = AccountSummaryCell.rowHeight

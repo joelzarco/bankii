@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let loginViewController = LoginViewController()
     let onBoardingContainerVC = OnBoardingContainerViewController()
-    let dummyVC = DummyViewController()
+//    let dummyVC = DummyViewController()
     let mainVC = MainViewController()
     
     func application(_ application : UIApplication, didFinishLaunchingWithOptions launchOptions : [UIApplication.LaunchOptionsKey : Any]?) -> Bool{
@@ -26,16 +26,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         loginViewController.delegate = self
         onBoardingContainerVC.delegate = self
-        dummyVC.logoutDelegate = self
+
 //        window?.rootViewController = LoginViewController()
-//        window?.rootViewController = OnBoardingContainerViewController()
-//        window?.rootViewController = loginViewController
-//        window?.rootViewController = onBoardingContainerVC
-//        window?.rootViewController = mainVC
-        // to start directly into the summary
-        window?.rootViewController = AccountSummaryViewController()
-        // to start on a diferent vc on launch:
-//        mainVC.selectedIndex = 1 // 0, 1, or 2
+        let vc = mainVC
+        vc.setStatusBar()
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().backgroundColor = appColor
+        
+        window?.rootViewController = vc
+        
         return true
     }
 
@@ -46,7 +45,7 @@ extension AppDelegate : LoginViewControllerDelegate{
         print("foo - didLogin succesfull!!!")
         setRootViewController(onBoardingContainerVC)
         if LocalState.hasOnboarded{
-         setRootViewController(dummyVC)
+         setRootViewController(mainVC)
         }else{
             setRootViewController(onBoardingContainerVC)
         }
@@ -58,7 +57,7 @@ extension AppDelegate : OnBoardingDelegate{
     func didFinishOnBoarding() {
         LocalState.hasOnboarded = true
         print("didFinishOnBoarding succesfull!!!")
-        setRootViewController(dummyVC)
+        setRootViewController(mainVC)
     }
 }
 

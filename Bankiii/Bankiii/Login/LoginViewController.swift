@@ -17,7 +17,9 @@ protocol LoginViewControllerDelegate : AnyObject{
 }
 
 class LoginViewController: UIViewController {
-
+    
+    let titleLabel = UILabel()
+    let subtitleLabel = UILabel()
     let loginView = LoginView()
     let signInButton = UIButton(type: .system)
     let errorMessageLabel = UILabel()
@@ -28,6 +30,11 @@ class LoginViewController: UIViewController {
     var password : String?{
         return loginView.passwordTextField.text
     }
+    var leadingEdgeOnScreen : CGFloat = 50
+    var leadingEdgeOffScreen : CGFloat = -1000
+    // variable constraints for animation
+    var titleLeadingAnchor : NSLayoutConstraint?
+    var subtitleLeadingAnchor : NSLayoutConstraint?
     // define delegate as weak to avoid retain cycles
     weak var delegate : LoginViewControllerDelegate?
     
@@ -40,10 +47,28 @@ class LoginViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         signInButton.configuration?.showsActivityIndicator = false
     }
+    // animate Title & subtitle
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        animate()
+    }
 }
 
 extension LoginViewController{
     private func style(){
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.text = "BanKiii"
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        titleLabel.adjustsFontForContentSizeCategory = true
+        titleLabel.alpha = 0
+        
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        subtitleLabel.text = "Your anonymous source for all things crypto"
+        subtitleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+        subtitleLabel.adjustsFontForContentSizeCategory = true
+        subtitleLabel.numberOfLines = 0
+        subtitleLabel.textAlignment = .center
+        
         loginView.translatesAutoresizingMaskIntoConstraints = false
         
         signInButton.translatesAutoresizingMaskIntoConstraints = false
@@ -61,14 +86,26 @@ extension LoginViewController{
     }
     
     private func layout(){
+        view.addSubview(titleLabel)
+        view.addSubview(subtitleLabel)
         view.addSubview(loginView)
         view.addSubview(signInButton)
         view.addSubview(errorMessageLabel)
+        // title
+        // grab title's leading anchor as NSLyoutConstraint in order to animate
+        titleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: loginView.topAnchor, constant: -150).isActive = true
+        titleLeadingAnchor = titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingEdgeOffScreen)
+        titleLeadingAnchor?.isActive = true
+        // subtitle
+        subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 3).isActive = true
+        subtitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        subtitleLeadingAnchor = subtitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingEdgeOffScreen)
+        subtitleLeadingAnchor?.isActive = true
         // loginView
         loginView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        loginView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1).isActive = true // 1x = 8 points
-        // starting from the left edge view to 'hug' loginView
-        view.trailingAnchor.constraint(equalToSystemSpacingAfter: loginView.trailingAnchor, multiplier: 1).isActive = true // same 8 points
+        loginView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2).isActive = true // 1x = 8 points
+        view.trailingAnchor.constraint(equalToSystemSpacingAfter: loginView.trailingAnchor, multiplier: 2).isActive = true // same 8 points
         // signInButton
         signInButton.topAnchor.constraint(equalToSystemSpacingBelow: loginView.bottomAnchor, multiplier: 2).isActive = true
         signInButton.leadingAnchor.constraint(equalTo: loginView.leadingAnchor).isActive = true
@@ -117,4 +154,27 @@ extension LoginViewController{
     
 }
 
+extension LoginViewController{
+    
+    private func animate(){
+        let animator1 = UIViewPropertyAnimator(duration: 2, curve: .easeInOut){
+            self.titleLeadingAnchor?.constant = self.leadingEdgeOnScreen
+            self.view.layoutIfNeeded()
+        }
+        animator1.startAnimation()
+
+        let animator2 = UIViewPropertyAnimator(duration: 1, curve: .easeInOut){
+            self.subtitleLeadingAnchor?.constant = self.leadingEdgeOnScreen
+            self.view.layoutIfNeeded()
+        }
+        animator2.startAnimation(afterDelay: 0.2)
+        
+        let animator3 = UIViewPropertyAnimator(duration: 4, curve: .easeInOut){
+            self.titleLabel.alpha = 1
+            self.view.layoutIfNeeded()
+        }
+        animator3.startAnimation(afterDelay: 0.5)
+    }
+    
+}
 

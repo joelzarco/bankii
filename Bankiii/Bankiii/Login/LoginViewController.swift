@@ -30,7 +30,7 @@ class LoginViewController: UIViewController {
     var password : String?{
         return loginView.passwordTextField.text
     }
-    var leadingEdgeOnScreen : CGFloat = 50
+    var leadingEdgeOnScreen : CGFloat = 16
     var leadingEdgeOffScreen : CGFloat = -1000
     // variable constraints for animation
     var titleLeadingAnchor : NSLayoutConstraint?
@@ -93,15 +93,33 @@ extension LoginViewController{
         view.addSubview(errorMessageLabel)
         // title
         // grab title's leading anchor as NSLyoutConstraint in order to animate
-        titleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor).isActive = true
-        titleLabel.topAnchor.constraint(equalTo: loginView.topAnchor, constant: -150).isActive = true
+//        titleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor).isActive = true
+//        titleLabel.topAnchor.constraint(equalTo: loginView.topAnchor, constant: -150).isActive = true
+//        titleLeadingAnchor = titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingEdgeOffScreen)
+//        titleLeadingAnchor?.isActive = true
+//        // subtitle
+//        subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 3).isActive = true
+//        subtitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+//        subtitleLeadingAnchor = subtitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingEdgeOffScreen)
+//        subtitleLeadingAnchor?.isActive = true
+        
+        // Title
+        NSLayoutConstraint.activate([
+            subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 3),
+            titleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor)
+            ])
+                    
         titleLeadingAnchor = titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingEdgeOffScreen)
         titleLeadingAnchor?.isActive = true
-        // subtitle
-        subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 3).isActive = true
-        subtitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        // Subtitle
+        NSLayoutConstraint.activate([
+            loginView.topAnchor.constraint(equalToSystemSpacingBelow: subtitleLabel.bottomAnchor, multiplier: 3),
+            subtitleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor)
+            ])
+                    
         subtitleLeadingAnchor = subtitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingEdgeOffScreen)
         subtitleLeadingAnchor?.isActive = true
+                
         // loginView
         loginView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         loginView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2).isActive = true // 1x = 8 points
@@ -119,7 +137,7 @@ extension LoginViewController{
 }
 
 extension LoginViewController{
-    
+
     @objc func signInTapped(sender : UIButton){
         print("signIn Tapped!")
         errorMessageLabel.isHidden = true
@@ -127,6 +145,7 @@ extension LoginViewController{
     }
     
     private func login(){
+        // MARK: VALIDATE TEXT FIELDS
         // unwrap optional with guard
         guard let username = username, let password = password else{
             // assertion only appears in debug builds, not in production
@@ -150,6 +169,18 @@ extension LoginViewController{
     private func configureView(withMessage message : String){
         errorMessageLabel.isHidden = false
         errorMessageLabel.text = message
+        print("Some error in fields")
+        shakeButton()
+    }
+    private func shakeButton(){
+        let animation = CAKeyframeAnimation()
+        animation.keyPath = "position.x"
+        // x posistions in key value pairs
+        animation.values = [0, 10, -10, 10, 0]
+        animation.keyTimes = [0, 0.16, 0.5, 0.83, 1]
+        animation.duration = 0.4
+        animation.isAdditive = true
+        signInButton.layer.add(animation, forKey: "shake")
     }
     
 }

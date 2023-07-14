@@ -91,18 +91,6 @@ extension LoginViewController{
         view.addSubview(loginView)
         view.addSubview(signInButton)
         view.addSubview(errorMessageLabel)
-        // title
-        // grab title's leading anchor as NSLyoutConstraint in order to animate
-//        titleLabel.trailingAnchor.constraint(equalTo: loginView.trailingAnchor).isActive = true
-//        titleLabel.topAnchor.constraint(equalTo: loginView.topAnchor, constant: -150).isActive = true
-//        titleLeadingAnchor = titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingEdgeOffScreen)
-//        titleLeadingAnchor?.isActive = true
-//        // subtitle
-//        subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 3).isActive = true
-//        subtitleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-//        subtitleLeadingAnchor = subtitleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadingEdgeOffScreen)
-//        subtitleLeadingAnchor?.isActive = true
-        
         // Title
         NSLayoutConstraint.activate([
             subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 3),

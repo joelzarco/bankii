@@ -15,7 +15,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let loginViewController = LoginViewController()
     let onBoardingContainerVC = OnBoardingContainerViewController()
-//    let dummyVC = DummyViewController()
     let mainVC = MainViewController()
     
     func application(_ application : UIApplication, didFinishLaunchingWithOptions launchOptions : [UIApplication.LaunchOptionsKey : Any]?) -> Bool{
@@ -27,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loginViewController.delegate = self
         onBoardingContainerVC.delegate = self
         registerForNotifications()
-//        window?.rootViewController = LoginViewController()
         displayLogin()
         
         return true
